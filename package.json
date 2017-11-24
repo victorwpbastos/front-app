@@ -2,13 +2,14 @@
 	"name": "front-app",
 	"version": "1.0.0",
 	"description": "Front App",
+	"main": "index.js",
 	"scripts": {
 		"start": "electron ."
 	},
 	"repository": "https://github.com/victorwpbastos/front-app",
 	"author": "Victor Bastos <victorwpbastos@gmail.com>",
 	"devDependencies": {
-		"electron": "~1.7.8"
+		"electron": "^1.7.9"
 	},
 	"dependencies": {
 		"ansi-to-html": "^0.6.3",

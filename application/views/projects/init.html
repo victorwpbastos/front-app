@@ -4,48 +4,46 @@
 		<header class="modal-card-head">
 			<p class="modal-card-title">Init Project</p>
 		</header>
-		<fieldset :disabled="loading" style="border:none;">
-			<section class="modal-card-body">
-				<div class="field">
-					<label for="path" class="label">Path <span class="has-text-danger">*</span></label>
-					<div class="field has-addons"  @click="showFileDialog">
-						<div class="control is-expanded">
-							<input type="text" id="path" class="input" :value="fullPath" readonly>
-						</div>
-						<div class="control">
-							<button type="button" class="button is-info">Choose</button>
-						</div>
+		<section class="modal-card-body">
+			<div class="field">
+				<label for="path" class="label">Path <span class="has-text-danger">*</span></label>
+				<div class="field has-addons">
+					<div class="control is-expanded">
+						<input type="text" id="path" class="input" :value="fullPath" @click="showFileDialog" readonly :disabled="loading">
+					</div>
+					<div class="control">
+						<button type="button" class="button is-info" @click="showFileDialog" :disabled="loading">Choose</button>
 					</div>
 				</div>
-				<div class="field">
-					<label for="name" class="label">Name <span class="has-text-danger">*</span></label>
-					<input type="text" id="name" class="input" v-model="name">
+			</div>
+			<div class="field">
+				<label for="name" class="label">Name <span class="has-text-danger">*</span></label>
+				<input type="text" id="name" class="input" v-model="name" :disabled="loading">
+			</div>
+			<div class="field">
+				<label for="template" class="label">Template <span class="has-text-danger">*</span></label>
+				<div class="select is-fullwidth">
+					<select id="template" v-model="template" :disabled="loading || templates.length === 0">
+						<option value="" v-if="!template">-- select a template --</option>
+						<option v-for="t in templates" :value="t.full_name">{{ t.description }}</option>
+					</select>
 				</div>
-				<div class="field">
-					<label for="template" class="label">Template <span class="has-text-danger">*</span></label>
-					<div class="select is-fullwidth">
-						<select id="template" v-model="template" :disabled="templates.length === 0">
-							<option value="" v-if="!template">-- select a template --</option>
-							<option v-for="t in templates" :value="t.full_name">{{ t.description }}</option>
-						</select>
-					</div>
-				</div>
-			</section>
-			<footer class="modal-card-foot flex flex-v-center">
-				<span class="has-text-danger">*</span>: required fields
+			</div>
+		</section>
+		<footer class="modal-card-foot flex flex-v-center">
+			<span class="has-text-danger">*</span>: required fields
 
-				<div style="margin-left:auto;">
-					<button type="button" class="button" @click="$emit('close')">Cancel</button>
-					<button type="button" class="button is-primary" @click="confirm" :disabled="name === '' || path === '' || template === ''">
-						<span class="icon">
-							<span class="fa fa-spin fa-spinner" v-if="loading"></span>
-							<span class="fa fa-check" v-else></span>
-						</span>
-						<span v-if="loading">Initializing</span>
-						<span v-else>Confirm</span>
-					</button>
-				</div>
-			</footer>
-		</fieldset>
+			<div style="margin-left:auto;">
+				<button type="button" class="button" @click="$emit('close')" :disabled="loading">Cancel</button>
+				<button type="button" class="button is-primary" @click="confirm" :disabled="loading || name === '' || path === '' || template === ''">
+					<span class="icon">
+						<span class="fa fa-spin fa-spinner" v-if="loading"></span>
+						<span class="fa fa-check" v-else></span>
+					</span>
+					<span v-if="loading">Initializing</span>
+					<span v-else>Confirm</span>
+				</button>
+			</div>
+		</footer>
 	</div>
 </div>

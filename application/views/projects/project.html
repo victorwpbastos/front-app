@@ -6,7 +6,7 @@
 
 		<div class="level-right">
 			<!-- front start -->
-			<span class="is-size-5 has-text-primary" title="Run 'front start' command" style="cursor:pointer;margin-right:10px;" @click="start" v-if="!isStarting && !isRunning">
+			<span class="is-size-5 has-text-primary" title="Run 'front start' command" style="cursor:pointer;margin-right:10px;" @click="start" v-if="!isStarting && !isRunningStart">
 				<span class="fa fa-fw fa-play-circle"></span>
 			</span>
 
@@ -15,8 +15,23 @@
 				<span class="fa fa-fw fa-spin fa-spinner"></span>
 			</span>
 
-			<!-- front stop -->
-			<span class="is-size-5 has-text-danger" title="Stop 'front start' command" style="cursor:pointer;margin-right:10px;" @click="stop" v-if="isRunning">
+			<!-- front stop start -->
+			<span class="is-size-5 has-text-danger" title="Stop 'front start' command" style="cursor:pointer;margin-right:10px;" @click="stop('start')" v-if="isRunningStart">
+				<span class="fa fa-fw fa-stop-circle"></span>
+			</span>
+
+			<!-- front build -->
+			<span class="is-size-5 has-text-grey" title="Run 'front build' command" style="cursor:pointer;margin-right:10px;" @click="build" v-if="!isBuilding && !isRunningBuild">
+				<span class="fa fa-fw fa-file-zip-o"></span>
+			</span>
+
+			<!-- front is building -->
+			<span class="is-size-5 has-text-grey-light" style="margin-right:10px;" v-if="isBuilding">
+				<span class="fa fa-fw fa-spin fa-spinner"></span>
+			</span>
+
+			<!-- front stop build -->
+			<span class="is-size-5 has-text-danger" title="Stop 'front build' command" style="cursor:pointer;margin-right:10px;" @click="stop('build')" v-if="isRunningBuild">
 				<span class="fa fa-fw fa-stop-circle"></span>
 			</span>
 
@@ -31,7 +46,7 @@
 			</span>
 
 			<!-- show output -->
-			<span class="is-size-5 has-text-grey" title="Show 'front start' output" :class="output ? 'has-text-grey' : 'has-text-grey-light'" :style="{ 'margin-right': '10px', cursor: output ? 'pointer' : 'not-allowed' }" @click="showOutput = !showOutput">
+			<span class="is-size-5 has-text-grey" title="Show 'front' output" :class="(startOutput || buildOutput) ? 'has-text-grey' : 'has-text-grey-light'" :style="{ 'margin-right': '10px', cursor: (startOutput || buildOutput) ? 'pointer' : 'not-allowed' }" @click="showOutput = !showOutput">
 				<span class="fa fa-fw" :class="showOutput ? 'fa-eye-slash' : 'fa-eye'"></span>
 			</span>
 
@@ -41,14 +56,30 @@
 			</span>
 
 			<!-- remove project -->
-			<span class="is-size-5 has-text-danger" title="Remove project" style="cursor:pointer; margin-left:40px;" @click="showRemoveConfirmationModal = true">
+			<span class="is-size-5 has-text-danger" title="Remove project from the list" style="cursor:pointer; margin-left:40px;" @click="showRemoveConfirmationModal = true">
 				<span class="fa fa-fw fa-times-rectangle"></span>
 			</span>
 		</div>
 	</div>
 
-	<!-- webpack output -->
-	<pre v-if="showOutput" style="margin-top:10px;background:#222;color:#f7f7f7;max-height:150px;overflow-y:auto;" v-html="output"></pre>
+	<!-- webpack outputs -->
+	<template v-if="showOutput">
+		<div class="message" v-if="startOutput">
+			<div class="message-header">front start's output</div>
+
+			<div class="message-body" style="padding:0;border:none;max-height:150px;overflow-y:auto;">
+				<pre style="background:#222;color:#f7f7f7;" v-html="startOutput"></pre>
+			</div>
+		</div>
+
+		<div class="message" v-if="buildOutput">
+			<div class="message-header">front build's output</div>
+
+			<div class="message-body" style="padding:0;border:none;max-height:150px;overflow-y:auto;">
+				<pre style="background:#222;color:#f7f7f7;" v-html="buildOutput"></pre>
+			</div>
+		</div>
+	</template>
 
 	<!-- remove confirmation modal -->
 	<div class="modal is-active" v-if="showRemoveConfirmationModal">

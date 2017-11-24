@@ -56,38 +56,24 @@ module.exports = {
 		},
 
 		confirm() {
-			try {
-				let command = os.platform() === 'win32' ? 'front.cmd' : 'front';
-				// let child = spawn(command, ['init', '--template', this.template], { cwd: this.fullPath });
-				let child = spawn(command, ['init', this.name, '--template', this.template], { cwd: this.path });
+			let command = os.platform() === 'win32' ? 'front.cmd' : 'front';
+			let child = spawn(command, ['init', this.name, '--template', this.template], { cwd: this.path });
 
-				this.loading = true;
+			this.loading = true;
 
-				child.stdout.on('data', (data) => {
-					if (data && data.toString().length > 1) {
-						// this.loading = false;
-						// this.output += convert.toHtml(data.toString());
-						// console.log(data.toString());
-						console.log('data');
-					}
-				});
+			child.on('error', (error) => {
+				this.loading = false;
 
-				child.stderr.on('data', (data) => {
-					this.loading = false;
-					console.log(data.toString());
-				});
+				console.error(data.toString());
+			});
 
-				child.on('close', () => {
-					console.log('close');
-					// this.isRunning = false;
+			child.on('close', (code) => {
+				this.loading = false;
 
-					// this.output = '';
-					// this.showOutput = false;
-					// this.address = '';
-				});
-			} catch (error) {
-				console.log(error);
-			}
+				if (code === 0) {
+					this.$emit('success', { name: this.name, path: this.fullPath });
+				}
+			});
 		}
 	}
 };

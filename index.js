@@ -20,19 +20,19 @@ app.on('ready', () => {
 	let win = new BrowserWindow({
 		minWidth: 890,
 		minHeight: 600,
+
 		// frame: false,
 		// show: false,
 		// skipTaskbar: true
 	});
+
+	// win.setMenu(null);
 
 	win.loadURL(url.format({
 		pathname: path.join(__dirname, 'index.html'),
 		protocol: 'file:',
 		slashes: true
 	}));
-
-	console.log(win.getSize());
-	console.log(win.getContentSize());
 });
 
 

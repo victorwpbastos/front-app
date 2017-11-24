@@ -7,7 +7,7 @@ html, body {
 }
 
 body {
-	padding: 10px;
+	padding: 15px;
 	background: #f7f7f7;
 }
 
@@ -26,8 +26,8 @@ body {
 
 /* general */
 .box {
-	padding: 10px;
-	margin-bottom: 10px !important;
+	padding: 15px;
+	margin-bottom: 15px !important;
 }
 
 .box:last-of-type {

@@ -1,5 +1,5 @@
 <div>
-	<nav class="flex flex-v-center" style="margin-bottom:10px;">
+	<nav class="flex flex-v-center" style="margin-bottom:15px;">
 		<span class="is-size-5">Front App</span>
 
 		<div style="margin-left:auto;">
@@ -22,13 +22,13 @@
 	</nav>
 
 	<!-- success message -->
-	<div class="notification is-primary" style="margin-bottom:10px;" v-if="successMessage">
+	<div class="notification is-primary" style="margin-bottom:15px;" v-if="successMessage">
 		<button class="delete" style="margin:10px;" @click="successMessage = ''"></button>
 		<div v-html="successMessage"></div>
 	</div>
 
 	<!-- error message -->
-	<div class="notification is-danger" style="margin-bottom:10px;" v-if="errorMessage">
+	<div class="notification is-danger" style="margin-bottom:15px;" v-if="errorMessage">
 		<button class="delete" style="margin:10px;" @click="errorMessage = ''"></button>
 		<div v-html="errorMessage"></div>
 	</div>
@@ -37,5 +37,5 @@
 	<project-list :projects="projects" @remove="remove" />
 
 	<!-- init new project modal -->
-	<project-init v-if="showInitProjectModal" @close="showInitProjectModal = false" />
+	<project-init v-if="showInitProjectModal" @success="onInitProjectSuccess" @close="showInitProjectModal = false" />
 </div>

@@ -103,6 +103,13 @@ module.exports = {
 				console.error(error);
 				this.errorMessage = 'There was an error removing the project.';
 			}
+		},
+
+		onInitProjectSuccess({ name, path }) {
+			this.projects.push({ _id: new Date().getTime(), name, path });
+			this.persistChanges();
+
+			this.showInitProjectModal = false;
 		}
 	}
 };
