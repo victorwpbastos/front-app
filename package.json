@@ -1,0 +1,22 @@
+{
+	"name": "front-app",
+	"version": "1.0.0",
+	"description": "Front App",
+	"scripts": {
+		"start": "electron ."
+	},
+	"repository": "https://github.com/victorwpbastos/front-app",
+	"author": "Victor Bastos <victorwpbastos@gmail.com>",
+	"devDependencies": {
+		"electron": "~1.7.8"
+	},
+	"dependencies": {
+		"ansi-to-html": "^0.6.3",
+		"bulma": "^0.6.1",
+		"font-awesome": "^4.7.0",
+		"menubar": "^5.2.3",
+		"request": "^2.83.0",
+		"tree-kill": "^1.2.0",
+		"vue": "^2.5.8"
+	}
+}

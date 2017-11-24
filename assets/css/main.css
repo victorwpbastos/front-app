@@ -1,0 +1,35 @@
+@import url('../../node_modules/bulma/css/bulma.css');
+@import url('../../node_modules/font-awesome/css/font-awesome.min.css');
+
+html, body {
+	overflow: auto;
+	height: 100%;
+}
+
+body {
+	padding: 10px;
+	background: #f7f7f7;
+}
+
+/* flex utils */
+.flex {
+	display: flex;
+}
+
+.flex-v-center {
+	justify-content: center;
+}
+
+.flex-h-center {
+	align-items: center;
+}
+
+/* general */
+.box {
+	padding: 10px;
+	margin-bottom: 10px !important;
+}
+
+.box:last-of-type {
+	margin-bottom: 0 !important;
+}

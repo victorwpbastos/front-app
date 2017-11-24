@@ -1,2 +1,0 @@
-# front-app
-Front App

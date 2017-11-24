@@ -1,0 +1,41 @@
+<div>
+	<nav class="flex flex-v-center" style="margin-bottom:10px;">
+		<span class="is-size-5">Front App</span>
+
+		<div style="margin-left:auto;">
+			<button type="button" class="button is-primary" @click="addExistingProject" :disabled="loading">
+				<span class="icon">
+					<span class="fa fa-spin fa-spinner" v-if="loading"></span>
+					<span class="fa fa-plus-circle" v-else></span>
+				</span>
+				<span v-if="loading">Processing</span>
+				<span v-else>Add Existent Project</span>
+			</button>
+
+			<button type="button" class="button is-info" @click="showInitProjectModal = true" :disabled="showInitProjectModal">
+				<span class="icon">
+					<span class="fa fa-folder"></span>
+				</span>
+				<span>Init a New Project</span>
+			</button>
+		</div>
+	</nav>
+
+	<!-- success message -->
+	<div class="notification is-primary" style="margin-bottom:10px;" v-if="successMessage">
+		<button class="delete" style="margin:10px;" @click="successMessage = ''"></button>
+		<div v-html="successMessage"></div>
+	</div>
+
+	<!-- error message -->
+	<div class="notification is-danger" style="margin-bottom:10px;" v-if="errorMessage">
+		<button class="delete" style="margin:10px;" @click="errorMessage = ''"></button>
+		<div v-html="errorMessage"></div>
+	</div>
+
+	<!-- project list -->
+	<project-list :projects="projects" @remove="remove" />
+
+	<!-- init new project modal -->
+	<project-init v-if="showInitProjectModal" @close="showInitProjectModal = false" />
+</div>
