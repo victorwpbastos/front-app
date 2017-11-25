@@ -17,22 +17,30 @@ let path = require('path')
 let url = require('url')
 
 app.on('ready', () => {
+	let splash = new BrowserWindow({
+		width: 400,
+		height: 150,
+		frame: false,
+		alwaysOnTop: true
+	});
 	let win = new BrowserWindow({
 		minWidth: 890,
 		minHeight: 600,
-
+		show: false
 		// frame: false,
-		// show: false,
 		// skipTaskbar: true
 	});
 
 	// win.setMenu(null);
 
-	win.loadURL(url.format({
-		pathname: path.join(__dirname, 'index.html'),
-		protocol: 'file:',
-		slashes: true
-	}));
+	splash.loadURL(`file://${__dirname}/splash.html`);
+
+	win.loadURL(`file://${__dirname}/index.html`);
+
+	win.once('ready-to-show', () => {
+		splash.destroy();
+		win.show();
+	});
 });
 
 
