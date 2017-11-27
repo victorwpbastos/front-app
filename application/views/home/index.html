@@ -34,7 +34,13 @@
 	</div>
 
 	<!-- project list -->
-	<project-list :projects="projects" @remove="remove" />
+	<template v-if="projects.length">
+		<project-detail v-for="project in projects" :project="project" :key="project.name" @remove="remove" />
+	</template>
+
+	<div class="notification is-warning" v-else>
+		There are no projects registered yet.
+	</div>
 
 	<!-- init new project modal -->
 	<project-init v-if="showInitProjectModal" @success="onInitProjectSuccess" @close="showInitProjectModal = false" />

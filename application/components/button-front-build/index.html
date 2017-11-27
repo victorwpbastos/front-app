@@ -1,0 +1,5 @@
+<span :class="{'is-size-5': true, 'has-text-grey': !running, 'has-text-danger': running }">
+	<span class="fa fa-fw fa-file-zip-o" title="Run 'front build' command" style="cursor:pointer;" @click="run" v-if="!running"></span>
+
+	<span class="fa fa-fw fa-stop-circle" title="Stop 'front build' command" style="cursor:pointer;" @click="stop" v-if="running"></span>
+</span>

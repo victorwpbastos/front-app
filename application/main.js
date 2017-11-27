@@ -1,10 +1,8 @@
 let Vue = require('vue/dist/vue.common.js');
-let Home = require('./views/index');
+let Home = require('./views/home');
 
 new Vue({
 	el: '#application-container',
 
-	render(h) {
-		return h(Home);
-	}
+	render: h => h(Home)
 });

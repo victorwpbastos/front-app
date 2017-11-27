@@ -4,7 +4,7 @@ let { dialog } = require('electron').remote;
 let { spawn } = require('child_process');
 let os = require('os');
 let request = require('request');
-let template = fs.readFileSync(path.resolve(__dirname, 'init.html'), 'utf8');
+let template = fs.readFileSync(path.resolve(__dirname, 'index.html'), 'utf8');
 
 module.exports = {
 	template: template,
