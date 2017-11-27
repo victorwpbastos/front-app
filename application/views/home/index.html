@@ -18,6 +18,12 @@
 				</span>
 				<span>Init a New Project</span>
 			</button>
+
+			<button type="button" class="button" @click="showConfigModal = true" :disabled="showConfigModal">
+				<span class="icon">
+					<span class="fa fa-cog"></span>
+				</span>
+			</button>
 		</div>
 	</nav>
 
@@ -44,4 +50,7 @@
 
 	<!-- init new project modal -->
 	<project-init v-if="showInitProjectModal" @success="onInitProjectSuccess" @close="showInitProjectModal = false" />
+
+	<!-- config modal -->
+	<config v-if="showConfigModal" @close="showConfigModal = false" />
 </div>

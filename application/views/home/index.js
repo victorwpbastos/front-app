@@ -5,11 +5,12 @@ let { dialog } = require('electron').remote;
 let template = fs.readFileSync(path.resolve(__dirname, 'index.html'), 'utf8');
 let ProjectInit = require('../project-init');
 let ProjectDetail = require('../project-detail');
+let Config = require('../config');
 
 module.exports = {
 	template: template,
 
-	components: { ProjectInit, ProjectDetail },
+	components: { ProjectInit, ProjectDetail, Config },
 
 	data() {
 		return {
@@ -17,6 +18,7 @@ module.exports = {
 
 			loading: false,
 			showInitProjectModal: false,
+			showConfigModal: false,
 			successMessage: '',
 			errorMessage: ''
 		};

@@ -15,6 +15,7 @@ module.exports = {
 			name: '',
 			template: '',
 			templates: [],
+			config: '',
 
 			loading: false
 		};
@@ -31,10 +32,26 @@ module.exports = {
 	},
 
 	created() {
+		this.config = this.getPersistedConfig();
+
+		if (this.config && this.config.additionalTemplates) {
+			this.templates = this.config.additionalTemplates;
+		}
+
 		this.populateTemplates();
 	},
 
 	methods: {
+		getPersistedConfig() {
+			let configFile = path.resolve(os.homedir(), '.front-app/config.json');
+
+			try {
+				return require(configFile);
+			} catch (error) {
+				return '';
+			}
+		},
+
 		populateTemplates() {
 			let url = 'https://api.github.com/users/front-templates/repos';
 			let headers = { 'User-Agent': 'front-cli' };
@@ -44,7 +61,9 @@ module.exports = {
 				if (error) {
 					console.error(error);
 				} else {
-					this.templates = JSON.parse(data);
+					let templates = JSON.parse(data);
+
+					this.templates.push(...templates);
 				}
 			});
 		},
@@ -61,7 +80,7 @@ module.exports = {
 
 			this.loading = true;
 
-			child.on('error', (error) => {
+			child.on('error', (data) => {
 				this.loading = false;
 
 				console.error(data.toString());
