@@ -1,0 +1,32 @@
+<div>
+	<ul class="nav nav-tabs">
+		<li :class="{ active: activeTab === 1 }">
+			<a href="#" @click.prevent="changeTab(1)">
+				<span class="fa fa-list"></span> Projects
+			</a>
+		</li>
+		<li :class="{ active: activeTab === 2 }">
+			<a href="#" @click.prevent="changeTab(2)">
+				<span class="fa fa-folder"></span> Add Existing Project
+			</a>
+		</li>
+		<li :class="{ active: activeTab === 3 }">
+			<a href="#" @click.prevent="changeTab(3)">
+				<span class="fa fa-plus-circle"></span> Init a New Project
+			</a>
+		</li>
+		<li :class="{ active: activeTab === 4 }">
+			<a href="#" @click.prevent="changeTab(4)">
+				<span class="fa fa-cog"></span> My Preferences
+			</a>
+		</li>
+	</ul>
+
+	<div class="tab-content">
+		<div class="tab-pane active">
+			<project-list v-if="activeTab === 1" />
+
+			<project-add v-if="activeTab === 2" />
+		</div>
+	</div>
+</div>

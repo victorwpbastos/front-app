@@ -1,0 +1,9 @@
+<div>
+	<template v-if="$store.projects.length">
+		<project-detail v-for="project in $store.projects" :project="project" :key="project.name" @remove="remove" />
+	</template>
+
+	<div class="alert alert-warning" v-else>
+		There are no projects registered yet.
+	</div>
+</div>
