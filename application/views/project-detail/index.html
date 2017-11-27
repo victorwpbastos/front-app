@@ -1,35 +1,40 @@
 <div class="box">
 	<div class="level is-mobile">
 		<div class="level-left">
-			<span class="is-size-6 has-text-grey">{{ project.name }}</span>
+			<span class="is-size-6 has-text-grey" :title="project.path">
+				{{ project.name }}
+				<span class="has-text-danger" v-if="!folderExists">(this folder doesn't exist!)</span>
+			</span>
 		</div>
 
 		<div class="level-right">
-			<!-- front start -->
-			<button-front-start :path="project.path" style="margin-right:15px;" @address="value => address = value" @output="value => outputFrontStart = value" />
+			<template v-if="folderExists">
+				<!-- front start -->
+				<button-front-start :path="project.path" style="margin-right:15px;" @address="value => address = value" @output="value => outputFrontStart = value" />
 
-			<!-- front build -->
-			<button-front-build :path="project.path" style="margin-right:15px;" @output="value => outputFrontBuild = value" />
+				<!-- front build -->
+				<button-front-build :path="project.path" style="margin-right:15px;" @output="value => outputFrontBuild = value" />
 
-			<!-- open folder in file explorer -->
-			<button-open-folder :path="project.path" style="margin-right:15px;" />
+				<!-- open folder in file explorer -->
+				<button-open-folder :path="project.path" style="margin-right:15px;" />
 
-			<!-- open folder in editor -->
-			<button-open-editor :path="project.path" style="margin-right:15px;" />
+				<!-- open folder in editor -->
+				<button-open-editor :path="project.path" style="margin-right:15px;" />
 
-			<!-- open browser -->
-			<button-open-browser :address="address" style="margin-right:15px;" />
+				<!-- open browser -->
+				<button-open-browser :address="address" style="margin-right:15px;" />
 
-			<!-- show output -->
-			<span
-				class="is-size-5 has-text-grey"
-				:class="(outputFrontStart || outputFrontBuild) ? 'has-text-grey' : 'has-text-grey-light'"
-				:style="{ 'margin-right': '10px', cursor: (outputFrontStart || outputFrontBuild) ? 'pointer' : 'not-allowed' }"
-				title="Show 'front' output"
-				@click="showOutput = !showOutput"
-			>
-				<span class="fa fa-fw" :class="showOutput ? 'fa-eye-slash' : 'fa-eye'"></span>
-			</span>
+				<!-- show output -->
+				<span
+					class="is-size-5 has-text-grey"
+					:class="(outputFrontStart || outputFrontBuild) ? 'has-text-grey' : 'has-text-grey-light'"
+					:style="{ 'margin-right': '10px', cursor: (outputFrontStart || outputFrontBuild) ? 'pointer' : 'not-allowed' }"
+					title="Show 'front' output"
+					@click="showOutput = !showOutput"
+				>
+					<span class="fa fa-fw" :class="showOutput ? 'fa-eye-slash' : 'fa-eye'"></span>
+				</span>
+			</template>
 
 			<!-- remove project -->
 			<span

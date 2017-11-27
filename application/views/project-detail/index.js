@@ -26,6 +26,12 @@ module.exports = {
 		};
 	},
 
+	computed: {
+		folderExists() {
+			return fs.existsSync(this.project.path);
+		}
+	},
+
 	methods: {
 		remove() {
 			this.$emit('remove', this.project);
