@@ -42,6 +42,18 @@ label {
 	color: #777777;
 }
 
+.box {
+	padding: 15px;
+	box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.35);
+	background: #ffffff;
+	border-radius: 3px;
+	margin-bottom: 15px;
+}
+
+.text-danger {
+	color: lightcoral !important;
+}
+
 /* tabs */
 ul.nav-tabs {
 	border: none;
@@ -91,4 +103,27 @@ ul.nav-tabs > li.active > a {
 	height: calc(100vh - 40px - 10px);
 	background: #ffffff;
 	position: relative;
+}
+
+/* webpack output */
+.panel-webpack-output {
+	border: none;
+}
+
+.panel-webpack-output .panel-heading {
+	border: solid 1px #dddddd;
+}
+
+.panel-webpack-output .panel-body {
+	padding: 0;
+	max-height: 150px;
+	overflow-y: auto;
+}
+
+.panel-webpack-output .panel-body pre {
+	margin: 0;
+	padding: 10px 15px;
+	border: none;
+	border-radius: 0 0 4px 4px;
+	background: #222;color:#f7f7f7;
 }

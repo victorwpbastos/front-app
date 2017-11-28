@@ -11,7 +11,8 @@ module.exports = {
 
 	data() {
 		return {
-			loading: false,
+			successMessage: '',
+			loading: false
 		};
 	},
 
@@ -34,14 +35,14 @@ module.exports = {
 			try {
 				this.$store.projects = this.$store.projects.filter(p => p._id !== project._id);
 
-				this.successMessage = 'Project removed successfully!';
+				this.successMessage = `Project <strong>${project.name}</strong> removed successfully!`;
 
 				setTimeout(() => {
 					this.successMessage = '';
 				}, 5000);
 			} catch (error) {
 				console.error(error);
-				this.errorMessage = 'There was an error removing the project.';
+				this.errorMessage = `There was an error removing the project <strong>${project.name}</strong>.`;
 			}
 		}
 	}

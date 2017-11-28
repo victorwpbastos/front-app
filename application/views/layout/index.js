@@ -14,7 +14,7 @@ module.exports = {
 
 	data() {
 		return {
-			activeTab: 4
+			activeTab: 1
 		};
 	},
 

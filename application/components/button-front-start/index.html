@@ -1,7 +1,13 @@
-<span :class="{'is-size-5': true, 'has-text-grey-light': loading, 'has-text-primary': !loading, 'has-text-danger': running }">
-	<span class="fa fa-fw fa-spin fa-spinner" v-if="loading"></span>
+<span>
+	<button type="button" class="btn btn-default" v-if="loading" disabled>
+		<span class="fa fa-fw fa-spin fa-spinner"></span>
+	</button>
 
-	<span class="fa fa-fw fa-play-circle" title="Run 'front start' command" style="cursor:pointer;" @click="run" v-if="!loading && !running"></span>
+	<button type="button" class="btn btn-default" title="Run 'front start' command" v-if="!loading && !running" @click="run">
+		<span class="fa fa-fw fa-play text-muted" v-if="!loading && !running"></span>
+	</button>
 
-	<span class="fa fa-fw fa-stop-circle" title="Stop 'front start' command" style="cursor:pointer;" @click="stop" v-if="running"></span>
+	<button type="button" class="btn btn-default" title="Stop 'front start' command" v-if="running" @click="stop">
+		<span class="fa fa-fw fa-stop text-danger"></span>
+	</button>
 </span>

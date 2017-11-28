@@ -13,10 +13,19 @@ module.exports = {
 	},
 
 	methods: {
-		run() {
-			let command = os.platform() === 'win32' ? 'code.cmd' : 'code';
+		getPersistedConfig() {
+			let configFile = path.resolve(os.homedir(), '.front-app/config.json');
 
-			let child = spawn(command, ['.'], { cwd: this.path, stdin: 'inherit' });
+			try {
+				return require(configFile);
+			} catch (error) {
+				return '';
+			}
+		},
+
+		run() {
+			let config = this.getPersistedConfig();
+			let child = spawn(config.editor, ['.'], { cwd: this.path, stdin: 'inherit' });
 
 			child.on('error', () => shell.openExternal(this.path));
 		}

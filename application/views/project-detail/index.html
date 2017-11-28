@@ -1,86 +1,81 @@
 <div class="box">
-	<div class="level is-mobile">
-		<div class="level-left">
-			<span class="is-size-6 has-text-grey" :title="project.path">
-				{{ project.name }} {{ project.path }} {{ folderExists }}
-				<span class="has-text-danger" v-if="!folderExists">(this folder doesn't exist!)</span>
-			</span>
-		</div>
+	<div class=" flex flex-h-center">
+		<strong class="text-muted">
+			{{ project.name }}
+			<span class="text-danger" v-if="!folderExists">(THIS FOLDER DOESN'T EXIST!)</span>
+		</strong>
 
-		<div class="level-right">
+		<div class="flex flex-h-center" style="margin-left:auto;">
 			<template v-if="folderExists">
 				<!-- front start -->
-				<button-front-start :path="project.path" style="margin-right:15px;" @address="value => address = value" @output="value => outputFrontStart = value" />
+				<button-front-start :path="project.path" style="margin-right:10px;" @address="value => address = value" @output="value => outputFrontStart = value"
+				/>
 
 				<!-- front build -->
-				<button-front-build :path="project.path" style="margin-right:15px;" @output="value => outputFrontBuild = value" />
+				<button-front-build :path="project.path" style="margin-right:10px;" @output="value => outputFrontBuild = value" />
 
 				<!-- open folder in file explorer -->
-				<button-open-folder :path="project.path" style="margin-right:15px;" />
+				<button-open-folder :path="project.path" style="margin-right:10px;" />
 
 				<!-- open folder in editor -->
-				<button-open-editor :path="project.path" style="margin-right:15px;" />
+				<button-open-editor :path="project.path" style="margin-right:10px;" />
 
 				<!-- open browser -->
-				<button-open-browser :address="address" style="margin-right:15px;" />
+				<button-open-browser :address="address" style="margin-right:10px;" :disabled="!address" />
 
-				<!-- show output -->
-				<span
-					class="is-size-5 has-text-grey"
-					:class="(outputFrontStart || outputFrontBuild) ? 'has-text-grey' : 'has-text-grey-light'"
-					:style="{ 'margin-right': '10px', cursor: (outputFrontStart || outputFrontBuild) ? 'pointer' : 'not-allowed' }"
-					title="Show 'front' output"
-					@click="showOutput = !showOutput"
-				>
-					<span class="fa fa-fw" :class="showOutput ? 'fa-eye-slash' : 'fa-eye'"></span>
-				</span>
+				<!-- toggle output -->
+				<button type="button" class="btn btn-default" style="margin-right:10px;" title="Toggle 'front' output" @click="showOutput = !showOutput">
+					<span class="fa text-muted" :class="showOutput ? 'fa-eye-slash' : 'fa-eye'"></span>
+				</button>
 			</template>
 
-			<!-- remove project -->
-			<span
-				class="is-size-5 has-text-danger"
-				style="cursor:pointer; margin-left:30px;"
-				title="Remove project from the list"
-				@click="showRemoveConfirmationModal = true"
-			>
-				<span class="fa fa-fw fa-times-rectangle"></span>
-			</span>
+			<!-- remove -->
+			<button type="button" class="btn btn-default" title="Remove project from the list" @click="showRemoveConfirmationModal = true">
+				<span class="fa fa-remove text-danger"></span>
+			</button>
 		</div>
 	</div>
 
 	<!-- webpack outputs -->
-	<template v-if="showOutput">
-		<div class="message" v-if="outputFrontStart">
-			<div class="message-header">Front start's output</div>
-
-			<div class="message-body" style="padding:0;border:none;max-height:150px;overflow-y:auto;">
-				<pre style="background:#222;color:#f7f7f7;" v-html="outputFrontStart"></pre>
+	<div v-if="showOutput">
+		<div class="panel panel-default panel-webpack-output" style="margin-bottom:15px;margin-top:15px;">
+			<div class="panel-heading">
+				<strong class="text-muted">Front start's output</strong>
+			</div>
+			<div class="panel-body">
+				<pre v-html="outputFrontStart" v-if="outputFrontStart"></pre>
+				<pre v-else>Nothing to show yet.</pre>
 			</div>
 		</div>
 
-		<div class="message" v-if="outputFrontBuild">
-			<div class="message-header">Front build's output</div>
-
-			<div class="message-body" style="padding:0;border:none;max-height:150px;overflow-y:auto;">
-				<pre style="background:#222;color:#f7f7f7;" v-html="outputFrontBuild"></pre>
+		<div class="panel panel-default panel-webpack-output" style="margin-bottom:0;">
+			<div class="panel-heading">
+				<strong class="text-muted">Front build's output</strong>
+			</div>
+			<div class="panel-body">
+				<pre v-html="outputFrontBuild" v-if="outputFrontBuild"></pre>
+				<pre v-else>Nothing to show yet.</pre>
 			</div>
 		</div>
-	</template>
+	</div>
 
 	<!-- remove confirmation modal -->
-	<div class="modal is-active" v-if="showRemoveConfirmationModal">
-		<div class="modal-background"></div>
-		<div class="modal-card">
-			<header class="modal-card-head">
-				<p class="modal-card-title">Confirmation</p>
-			</header>
-			<section class="modal-card-body">
-				Remove project <strong class="has-text-danger">{{ project.name }}</strong> from the list?
-			</section>
-			<footer class="modal-card-foot" style="justify-content:flex-end;">
-				<button type="button" class="button" @click="showRemoveConfirmationModal = false">Cancel</button>
-				<button type="button" class="button is-danger" @click="remove">Remove</button>
-			</footer>
+	<div class="modal fade in" style="display:block;" v-if="showRemoveConfirmationModal">
+		<div class="modal-dialog" style="margin:0;width:100%;height:100%;background:rgba(0, 0, 0, .50);display:flex;align-items:center;justify-content:center;">
+			<div class="modal-content" style="width:600px;">
+				<div class="modal-header">
+					<h4 class="modal-title text-muted">Confirmation</h4>
+				</div>
+
+				<div class="modal-body">
+					Remove project <strong class="text-danger">{{ project.name }}</strong> from the list?
+				</div>
+
+				<div class="modal-footer flex">
+					<button type="button" class="btn btn-default" @click="showRemoveConfirmationModal = false">Cancel</button>
+					<button type="button" class="btn btn-danger" style="margin-left:auto;" @click="remove">Remove</button>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

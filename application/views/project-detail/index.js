@@ -32,7 +32,21 @@ module.exports = {
 		}
 	},
 
+	created() {
+		document.addEventListener('keyup', this.closeModalOnEsc);
+	},
+
+	beforeDestroy() {
+		document.removeEventListener('keyup', this.closeModalOnEsc);
+	},
+
 	methods: {
+		closeModalOnEsc(e) {
+			if (e && e.keyCode === 27) {
+				this.showRemoveConfirmationModal = false;
+			}
+		},
+
 		remove() {
 			this.$emit('remove', this.project);
 		}

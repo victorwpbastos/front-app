@@ -71,7 +71,7 @@ module.exports = {
 		},
 
 		showFileDialog() {
-			dialog.showOpenDialog({ properties: ['openFile'] }, (paths) => {
+			dialog.showOpenDialog({ properties: ['openFile'], filters: [{ name: 'Executables', extensions: ['exe', 'cmd'] }] }, (paths) => {
 				if (paths) {
 					this.config.editor = paths[0];
 				}
