@@ -14,8 +14,33 @@ module.exports = {
 				additionalTemplates: []
 			},
 
+			errorMessage: '',
+			successMessage: '',
 			loading: false
 		};
+	},
+
+	computed: {
+		canConfirm() {
+			let additionalTemplates = this.config.additionalTemplates;
+			let invalids = 0;
+
+			additionalTemplates.forEach(at => {
+				if (at.full_name === '' && at.description === '') {
+					return;
+				}
+
+				if (at.full_name === '' || at.description === '') {
+					invalids++;
+				}
+
+				if (!this.isValidURL(at.full_name)) {
+					invalids++;
+				}
+			});
+
+			return invalids === 0;
+		}
 	},
 
 	watch: {
@@ -47,11 +72,23 @@ module.exports = {
 
 		showFileDialog() {
 			dialog.showOpenDialog({ properties: ['openFile'] }, (paths) => {
-				this.config.editor = paths ? paths[0] : '';
+				if (paths) {
+					this.config.editor = paths[0];
+				}
 			});
 		},
 
-		persistChanges() {
+		isValidURL(url) {
+			let re = /^.+\/.+$/i;
+
+			if (url) {
+				return re.test(url);
+			} else {
+				return true;
+			}
+		},
+
+		confirm() {
 			let configFolder = path.resolve(os.homedir(), '.front-app');
 			let data = JSON.stringify(this.config);
 
@@ -61,7 +98,11 @@ module.exports = {
 
 			fs.writeFileSync(path.resolve(configFolder, 'config.json'), data, 'utf8');
 
-			this.$emit('close');
+			this.successMessage = 'Preferences saved successfully!';
+
+			setTimeout(() => {
+				this.successMessage = '';
+			}, 5000);
 		}
 	}
 };

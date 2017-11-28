@@ -2,7 +2,7 @@
 	<div class="level is-mobile">
 		<div class="level-left">
 			<span class="is-size-6 has-text-grey" :title="project.path">
-				{{ project.name }}
+				{{ project.name }} {{ project.path }} {{ folderExists }}
 				<span class="has-text-danger" v-if="!folderExists">(this folder doesn't exist!)</span>
 			</span>
 		</div>

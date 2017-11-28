@@ -1,76 +1,49 @@
-<router-link to="/">Home</router-link>
+<div>
+	<div class="alert alert-danger" v-if="errorMessage" v-html="errorMessage"></div>
+	<div class="alert alert-success" v-if="successMessage" v-html="successMessage"></div>
 
-<!-- <div class="modal is-active">
-	<div class="modal-background"></div>
-	<div class="modal-card">
-		<header class="modal-card-head">
-			<p class="modal-card-title">My Preferences</p>
-		</header>
-		<section class="modal-card-body">
-			<div class="field">
-				<label for="editor" class="label">Code Editor</label>
-				<div class="field has-addons">
-					<div class="control is-expanded">
-						<input type="text" id="editor" class="input" v-model="config.editor" @click="showFileDialog" readonly :disabled="loading">
-					</div>
-					<div class="control">
-						<button type="button" class="button is-info" @click="showFileDialog" :disabled="loading">Choose</button>
-					</div>
-				</div>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<strong class="text-muted">Code Editor</strong>
+		</div>
+		<div class="panel-body">
+			<div class="input-group" @click="showFileDialog">
+				<input type="text" id="editor" class="form-control" v-model="config.editor" disabled>
+				<span class="input-group-btn">
+					<button type="button" class="btn btn-default">Choose</button>
+				</span>
 			</div>
-			<div class="field">
-				<div class="level" style="margin-bottom:10px;">
-					<div class="level-left">
-						<label class="label">Addtional Front Templates</label>
-					</div>
-					<div class="level-right">
-						<button type="button" class="button is-primary" @click="config.additionalTemplates.push({ description: '', full_name: '' })">
-							<span class="icon">
-								<span class="fa fa-plus"></span>
-							</span>
-						</button>
-					</div>
-				</div>
-				<table class="table is-fullwidth is-bordered is-hoverable is-narrow">
-					<thead>
-						<tr>
-							<th>Name</th>
-							<th>Github URL (username/repo)</th>
-							<th width="1"></th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr v-for="(at, i) in config.additionalTemplates">
-							<td>
-								<input type="text" class="input" v-model="config.additionalTemplates[i].description">
-							</td>
-							<td>
-								<input type="text" class="input" v-model="config.additionalTemplates[i].full_name">
-							</td>
-							<td>
-								<button type="button" class="button is-danger" @click="config.additionalTemplates.splice(i, 1)">
-									<span class="icon">
-										<span class="fa fa-remove"></span>
-									</span>
-								</button>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</section>
-		<footer class="modal-card-foot flex flex-v-center">
-			<div style="margin-left:auto;">
-				<button type="button" class="button" @click="$emit('close')" :disabled="loading">Cancel</button>
-				<button type="button" class="button is-primary" @click="persistChanges" :disabled="loading">
-					<span class="icon">
-						<span class="fa fa-spin fa-spinner" v-if="loading"></span>
-						<span class="fa fa-check" v-else></span>
-					</span>
-					<span v-if="loading">Saving</span>
-					<span v-else>Confirm</span>
+		</div>
+	</div>
+
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<div class="flex flex-h-center">
+				<strong class="text-muted">Addtional Templates</strong>
+				<button type="button" class="btn btn-default" style="margin-left:auto;" @click="config.additionalTemplates.push({ description: '', full_name: '' })">
+					<span class="fa fa-plus"></span> Add
 				</button>
 			</div>
-		</footer>
+		</div>
+		<div class="panel-body" style="padding-bottom:0;">
+			<div class="input-group" style="margin-bottom:15px;" v-for="(at, i) in config.additionalTemplates">
+				<span class="input-group-addon">Name:</span>
+				<input type="text" class="form-control" v-model="config.additionalTemplates[i].description">
+
+				<span class="input-group-addon" style="border-left:0;border-right:0;">GitHub URL (username/repo):</span>
+				<div class="form-group has-feedback" :class="{ 'has-error': !isValidURL(at.full_name) }">
+					<input type="text" class="form-control" style="border-radius:0;" v-model="config.additionalTemplates[i].full_name">
+					<span class="text-danger form-control-feedback" style="width:85px;z-index:4;" v-show="!isValidURL(at.full_name)">Invalid URL</span>
+				</div>
+
+				<span class="input-group-btn">
+					<button type="button" class="btn btn-warning" @click="config.additionalTemplates.splice(i, 1)">
+						<span class="fa fa-remove"></span>
+					</button>
+				</span>
+			</div>
+		</div>
 	</div>
-</div> -->
+
+	<button type="button" class="btn btn-success" style="position:absolute;bottom:15px;right:15px;" @click="confirm" :disabled="!canConfirm">Confirm</button>
+</div>

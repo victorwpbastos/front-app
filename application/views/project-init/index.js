@@ -4,6 +4,7 @@ let { dialog } = require('electron').remote;
 let { spawn } = require('child_process');
 let os = require('os');
 let request = require('request');
+let kill = require('tree-kill');
 let template = fs.readFileSync(path.resolve(__dirname, 'index.html'), 'utf8');
 
 module.exports = {
@@ -15,8 +16,10 @@ module.exports = {
 			name: '',
 			template: '',
 			templates: [],
-			config: '',
+			child: '',
 
+			successMessage: '',
+			errorMessage: '',
 			loading: false
 		};
 	},
@@ -32,13 +35,17 @@ module.exports = {
 	},
 
 	created() {
-		this.config = this.getPersistedConfig();
+		this.populateTemplates();
+	},
 
-		if (this.config && this.config.additionalTemplates) {
-			this.templates = this.config.additionalTemplates;
+	beforeDestroy() {
+		if (this.child.pid) {
+			kill(this.child.pid);
 		}
 
-		this.populateTemplates();
+		if (this.fullPath) {
+			fs.rmdirSync(this.fullPath);
+		}
 	},
 
 	methods: {
@@ -56,14 +63,23 @@ module.exports = {
 			let url = 'https://api.github.com/users/front-templates/repos';
 			let headers = { 'User-Agent': 'front-cli' };
 			let qs = { 'order': 'created', 'direction': 'desc' };
+			let config = this.getPersistedConfig();
+
+			if (config && config.additionalTemplates && config.additionalTemplates.length > 0) {
+				this.templates.push(...config.additionalTemplates);
+			}
 
 			request({ url, headers, qs }, (error, response, data) => {
 				if (error) {
-					console.error(error);
-				} else {
-					let templates = JSON.parse(data);
+					this.errorMessage = 'There was an error while fetching the templates. Try again later.'
 
-					this.templates.push(...templates);
+					setTimeout(() => {
+						this.errorMessage = '';
+					}, 5000);
+				} else {
+					data  = JSON.parse(data);
+
+					this.templates.push(...data);
 				}
 			});
 		},
@@ -76,21 +92,35 @@ module.exports = {
 
 		confirm() {
 			let command = os.platform() === 'win32' ? 'front.cmd' : 'front';
-			let child = spawn(command, ['init', this.name, '--template', this.template], { cwd: this.path });
+
+			this.child = spawn(command, ['init', this.name, '--template', this.template], { cwd: this.path });
 
 			this.loading = true;
 
-			child.on('error', (data) => {
+			this.child.on('error', (data) => {
 				this.loading = false;
 
 				console.error(data.toString());
 			});
 
-			child.on('close', (code) => {
+			this.child.on('close', (code) => {
 				this.loading = false;
 
 				if (code === 0) {
-					this.$emit('success', { name: this.name, path: this.fullPath });
+					this.$store.projects.push({
+						_id: new Date().getTime(),
+						name: this.name,
+						path: this.fullPath
+					});
+
+					this.name = '';
+					this.path = '';
+
+					this.successMessage = 'Project initialized successfully!';
+
+					setTimeout(() => {
+						this.successMessage = '';
+					}, 5000);
 				}
 			});
 		}

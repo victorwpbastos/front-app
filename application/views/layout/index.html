@@ -24,9 +24,17 @@
 
 	<div class="tab-content">
 		<div class="tab-pane active">
+			<!-- project list -->
 			<project-list v-if="activeTab === 1" />
 
+			<!-- project add -->
 			<project-add v-if="activeTab === 2" />
+
+			<!-- projet init -->
+			<project-init v-if="activeTab === 3" />
+
+			<!-- my preferences -->
+			<config v-if="activeTab === 4" />
 		</div>
 	</div>
 </div>
