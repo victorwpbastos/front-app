@@ -21,6 +21,10 @@ module.exports = {
 	watch: {
 		'$store.projects'() {
 			this.persistProjects();
+		},
+
+		'$store.config'() {
+			this.persistPreferences();
 		}
 	},
 
@@ -38,6 +42,17 @@ module.exports = {
 			} catch (error) {}
 
 			fs.writeFileSync(path.resolve(configFolder, 'projects.json'), data, 'utf8');
+		},
+
+		persistPreferences() {
+			let configFolder = path.resolve(os.homedir(), '.front-app');
+			let data = JSON.stringify(this.$store.config);
+
+			try {
+				fs.mkdirSync(configFolder);
+			} catch (error) { }
+
+			fs.writeFileSync(path.resolve(configFolder, 'config.json'), data, 'utf8');
 		}
 	}
 };

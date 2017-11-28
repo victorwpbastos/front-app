@@ -10,9 +10,10 @@ module.exports = {
 		return {
 			folder: '',
 			name: '',
-			loading: false,
+
 			errorMessage: '',
-			successMessage: ''
+			successMessage: '',
+			loading: false
 		};
 	},
 

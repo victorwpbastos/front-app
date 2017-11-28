@@ -16,21 +16,7 @@ module.exports = {
 		};
 	},
 
-	created() {
-		this.$store.projects = this.getPersistedProjects();
-	},
-
 	methods: {
-		getPersistedProjects() {
-			let projectsFile = path.resolve(os.homedir(), '.front-app/projects.json');
-
-			try {
-				return require(projectsFile);
-			} catch (error) {
-				return [];
-			}
-		},
-
 		remove(project) {
 			try {
 				this.$store.projects = this.$store.projects.filter(p => p._id !== project._id);

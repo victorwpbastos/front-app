@@ -35,6 +35,10 @@ module.exports = {
 		}
 	},
 
+	beforeDestroy() {
+		this.stop();
+	},
+
 	methods: {
 		run() {
 			let command = os.platform() === 'win32' ? 'front.cmd' : 'front';

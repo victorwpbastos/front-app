@@ -34,6 +34,24 @@ module.exports = {
 		}
 	},
 
+	watch: {
+		fullPath() {
+			if (this.path && this.name) {
+				let pathExists = fs.existsSync(this.fullPath);
+
+				if (pathExists) {
+					this.errorMessage = `The folder <strong>${this.fullPath}</strong> already exists.`
+
+					this.name = '';
+
+					setTimeout(() => {
+						this.errorMessage = '';
+					}, 5000);
+				}
+			}
+		}
+	},
+
 	created() {
 		this.populateTemplates();
 	},
@@ -49,24 +67,13 @@ module.exports = {
 	},
 
 	methods: {
-		getPersistedConfig() {
-			let configFile = path.resolve(os.homedir(), '.front-app/config.json');
-
-			try {
-				return require(configFile);
-			} catch (error) {
-				return '';
-			}
-		},
-
 		populateTemplates() {
 			let url = 'https://api.github.com/users/front-templates/repos';
 			let headers = { 'User-Agent': 'front-cli' };
 			let qs = { 'order': 'created', 'direction': 'desc' };
-			let config = this.getPersistedConfig();
 
-			if (config && config.additionalTemplates && config.additionalTemplates.length > 0) {
-				this.templates.push(...config.additionalTemplates);
+			if (this.$store.config.additionalTemplates.length > 0) {
+				this.templates.push(...this.$store.config.additionalTemplates);
 			}
 
 			request({ url, headers, qs }, (error, response, data) => {

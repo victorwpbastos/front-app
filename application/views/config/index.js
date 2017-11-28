@@ -1,6 +1,5 @@
 let fs = require('fs');
 let path = require('path');
-let os = require('os');
 let { dialog } = require('electron').remote;
 let template = fs.readFileSync(path.resolve(__dirname, 'index.html'), 'utf8');
 
@@ -9,10 +8,7 @@ module.exports = {
 
 	data() {
 		return {
-			config: {
-				editor: '',
-				additionalTemplates: []
-			},
+			config: Object.assign({}, this.$store.config),
 
 			errorMessage: '',
 			successMessage: '',
@@ -55,21 +51,7 @@ module.exports = {
 		}
 	},
 
-	created() {
-		this.config = this.getPersistedConfig();
-	},
-
 	methods: {
-		getPersistedConfig() {
-			let configFile = path.resolve(os.homedir(), '.front-app/config.json');
-
-			try {
-				return require(configFile);
-			} catch (error) {
-				return this.config;
-			}
-		},
-
 		showFileDialog() {
 			dialog.showOpenDialog({ properties: ['openFile'], filters: [{ name: 'Executables', extensions: ['exe', 'cmd'] }] }, (paths) => {
 				if (paths) {
@@ -89,14 +71,7 @@ module.exports = {
 		},
 
 		confirm() {
-			let configFolder = path.resolve(os.homedir(), '.front-app');
-			let data = JSON.stringify(this.config);
-
-			try {
-				fs.mkdirSync(configFolder);
-			} catch (error) { }
-
-			fs.writeFileSync(path.resolve(configFolder, 'config.json'), data, 'utf8');
+			this.$store.config = this.config;
 
 			this.successMessage = 'Preferences saved successfully!';
 
