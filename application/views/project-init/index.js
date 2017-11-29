@@ -78,7 +78,7 @@ module.exports = {
 
 			request({ url, headers, qs }, (error, response, data) => {
 				if (error) {
-					this.errorMessage = 'There was an error while fetching the templates. Try again later.'
+					this.errorMessage = 'There was an error while fetching the templates. Try again later.';
 
 					setTimeout(() => {
 						this.errorMessage = '';

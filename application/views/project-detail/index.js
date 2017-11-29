@@ -32,12 +32,14 @@ module.exports = {
 		}
 	},
 
-	created() {
-		document.addEventListener('keyup', this.closeModalOnEsc);
-	},
-
-	beforeDestroy() {
-		document.removeEventListener('keyup', this.closeModalOnEsc);
+	watch: {
+		showRemoveConfirmationModal() {
+			if (this.showRemoveConfirmationModal) {
+				this.$el.addEventListener('keyup', this.closeModalOnEsc);
+			} else {
+				this.$el.removeEventListener('keyup', this.closeModalOnEsc);
+			}
+		}
 	},
 
 	methods: {

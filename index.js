@@ -13,8 +13,6 @@
 
 
 let { app, BrowserWindow } = require('electron');
-let path = require('path')
-let url = require('url')
 
 app.on('ready', () => {
 	let splash = new BrowserWindow({
@@ -40,6 +38,7 @@ app.on('ready', () => {
 	win.once('ready-to-show', () => {
 		splash.destroy();
 		win.show();
+		win.webContents.openDevTools();
 	});
 });
 

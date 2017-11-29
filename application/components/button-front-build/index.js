@@ -31,7 +31,9 @@ module.exports = {
 	},
 
 	beforeDestroy() {
-		this.stop();
+		if (this.child.pid) {
+			this.stop();
+		}
 	},
 
 	methods: {
