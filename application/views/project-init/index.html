@@ -1,49 +1,51 @@
-<div>
-	<div class="alert alert-danger" v-if="errorMessage" v-html="errorMessage"></div>
-	<div class="alert alert-success" v-if="successMessage" v-html="successMessage"></div>
+<div class="flex flex-column" style="flex:1;justify-content:space-between;">
+	<div style="flex:1;">
+		<div class="alert alert-danger" v-if="errorMessage" v-html="errorMessage"></div>
+		<div class="alert alert-success" v-if="successMessage" v-html="successMessage"></div>
 
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<strong class="text-muted">
-				Path <span class="text-danger">*</span>
-			</strong>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<strong class="text-muted">
+					Path <span class="text-danger">*</span>
+				</strong>
+			</div>
+			<div class="panel-body">
+				<div class="input-group" @click="showFileDialog">
+					<input type="text" id="path" class="form-control" :value="fullPath" disabled>
+					<span class="input-group-btn">
+						<button type="button" class="btn btn-default">Choose</button>
+					</span>
+				</div>
+			</div>
 		</div>
-		<div class="panel-body">
-			<div class="input-group" @click="showFileDialog">
-				<input type="text" id="path" class="form-control" :value="fullPath" disabled>
-				<span class="input-group-btn">
-					<button type="button" class="btn btn-default">Choose</button>
-				</span>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<strong class="text-muted">
+					Name <span class="text-danger">*</span>
+				</strong>
+			</div>
+			<div class="panel-body">
+				<input type="text" id="name" class="form-control" v-model="name" :disabled="loading">
+			</div>
+		</div>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<strong class="text-muted">
+					Template <span class="text-danger">*</span>
+				</strong>
+			</div>
+			<div class="panel-body">
+				<select id="template" class="form-control" v-model="template" :disabled="loading || templates.length === 0">
+					<option value="" v-if="!template">-- select a template --</option>
+					<option v-for="t in templates" :value="t.full_name">{{ t.description }}</option>
+				</select>
 			</div>
 		</div>
 	</div>
 
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<strong class="text-muted">
-				Name <span class="text-danger">*</span>
-			</strong>
-		</div>
-		<div class="panel-body">
-			<input type="text" id="name" class="form-control" v-model="name" :disabled="loading">
-		</div>
-	</div>
-
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<strong class="text-muted">
-				Template <span class="text-danger">*</span>
-			</strong>
-		</div>
-		<div class="panel-body">
-			<select id="template" class="form-control" v-model="template" :disabled="loading || templates.length === 0">
-				<option value="" v-if="!template">-- select a template --</option>
-				<option v-for="t in templates" :value="t.full_name">{{ t.description }}</option>
-			</select>
-		</div>
-	</div>
-
-	<div style="position:absolute;bottom:15px;right:15px;left:15px;">
+	<div>
 		<div class="flex flex-h-center">
 			<span class="text-danger">*</span>: required fields
 

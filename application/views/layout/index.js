@@ -14,7 +14,7 @@ module.exports = {
 
 	data() {
 		return {
-			activeTab: 1
+			activeButton: 1
 		};
 	},
 
@@ -29,10 +29,6 @@ module.exports = {
 	},
 
 	methods: {
-		changeTab(tabNumber) {
-			this.activeTab = tabNumber;
-		},
-
 		persistProjects() {
 			let configFolder = path.resolve(os.homedir(), '.front-app');
 			let data = JSON.stringify(this.$store.projects);

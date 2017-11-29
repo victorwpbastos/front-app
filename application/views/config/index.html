@@ -1,49 +1,53 @@
-<div>
-	<div class="alert alert-danger" v-if="errorMessage" v-html="errorMessage"></div>
-	<div class="alert alert-success" v-if="successMessage" v-html="successMessage"></div>
+<div class="flex flex-column" style="flex:1;justify-content:space-between;">
+	<div style="flex:1;">
+		<div class="alert alert-danger" v-if="errorMessage" v-html="errorMessage"></div>
+		<div class="alert alert-success" v-if="successMessage" v-html="successMessage"></div>
 
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<strong class="text-muted">Code Editor</strong>
-		</div>
-		<div class="panel-body">
-			<div class="input-group" @click="showFileDialog">
-				<input type="text" id="editor" class="form-control" v-model="config.editor" disabled>
-				<span class="input-group-btn">
-					<button type="button" class="btn btn-default">Choose</button>
-				</span>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<strong class="text-muted">Code Editor</strong>
 			</div>
-		</div>
-	</div>
-
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<div class="flex flex-h-center">
-				<strong class="text-muted">Addtional Templates</strong>
-				<button type="button" class="btn btn-default" style="margin-left:auto;" @click="config.additionalTemplates.push({ description: '', full_name: '' })">
-					<span class="fa fa-plus"></span> Add
-				</button>
-			</div>
-		</div>
-		<div class="panel-body" style="padding-bottom:0;">
-			<div class="input-group" style="margin-bottom:15px;" v-for="(at, i) in config.additionalTemplates">
-				<span class="input-group-addon">Name:</span>
-				<input type="text" class="form-control" v-model="config.additionalTemplates[i].description">
-
-				<span class="input-group-addon" style="border-left:0;border-right:0;">GitHub URL (username/repo):</span>
-				<div class="form-group has-feedback" :class="{ 'has-error': !isValidURL(at.full_name) }">
-					<input type="text" class="form-control" style="border-radius:0;" v-model="config.additionalTemplates[i].full_name">
-					<span class="text-danger form-control-feedback" style="width:85px;z-index:4;" v-show="!isValidURL(at.full_name)">Invalid URL</span>
+			<div class="panel-body">
+				<div class="input-group" @click="showFileDialog">
+					<input type="text" id="editor" class="form-control" v-model="config.editor" disabled>
+					<span class="input-group-btn">
+						<button type="button" class="btn btn-default">Choose</button>
+					</span>
 				</div>
+			</div>
+		</div>
 
-				<span class="input-group-btn">
-					<button type="button" class="btn btn-warning" @click="config.additionalTemplates.splice(i, 1)">
-						<span class="fa fa-remove"></span>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<div class="flex flex-h-center">
+					<strong class="text-muted">Addtional Templates</strong>
+					<button type="button" class="btn btn-default" style="margin-left:auto;" @click="config.additionalTemplates.push({ description: '', full_name: '' })">
+						<span class="fa fa-plus"></span> Add
 					</button>
-				</span>
+				</div>
+			</div>
+			<div class="panel-body" style="padding-bottom:0;">
+				<div class="input-group" style="margin-bottom:15px;" v-for="(at, i) in config.additionalTemplates">
+					<span class="input-group-addon">Name:</span>
+					<input type="text" class="form-control" v-model="config.additionalTemplates[i].description">
+
+					<span class="input-group-addon" style="border-left:0;border-right:0;">GitHub URL (username/repo):</span>
+					<div class="form-group has-feedback" :class="{ 'has-error': !isValidURL(at.full_name) }">
+						<input type="text" class="form-control" style="border-radius:0;" v-model="config.additionalTemplates[i].full_name">
+						<span class="text-danger form-control-feedback" style="width:85px;z-index:4;" v-show="!isValidURL(at.full_name)">Invalid URL</span>
+					</div>
+
+					<span class="input-group-btn">
+						<button type="button" class="btn btn-warning" @click="config.additionalTemplates.splice(i, 1)">
+							<span class="fa fa-remove"></span>
+						</button>
+					</span>
+				</div>
 			</div>
 		</div>
 	</div>
 
-	<button type="button" class="btn btn-success" style="position:absolute;bottom:15px;right:15px;" @click="confirm" :disabled="!canConfirm">Confirm</button>
+	<div class="text-right">
+		<button type="button" class="btn btn-success" @click="confirm" :disabled="!canConfirm">Confirm</button>
+	</div>
 </div>

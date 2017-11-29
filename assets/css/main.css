@@ -3,15 +3,14 @@
 @import url('../../node_modules/bootstrap/dist/css/bootstrap-theme.min.css');
 @import url('../../node_modules/font-awesome/css/font-awesome.min.css');
 
-html, body {
-	overflow: auto;
+html, body, #application-container {
+	/* overflow: auto; */
 	height: 100%;
 }
 
 body {
-	/* padding: 15px; */
-	padding: 10px 0 0;
-	background: #e7e7e7;
+	padding: 15px;
+	background: #f7f7f7;
 	font-family: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 }
 
@@ -26,6 +25,40 @@ body {
 
 .flex-h-center {
 	align-items: center;
+}
+
+.flex-column {
+	flex-direction: column;
+}
+
+/* panels */
+.panel {
+	border: none;
+	box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.35);
+	margin-bottom: 15px;
+}
+
+/* webpack output */
+.panel-webpack-output {
+	border: none;
+}
+
+.panel-webpack-output .panel-heading {
+	border: solid 1px #dddddd;
+}
+
+.panel-webpack-output .panel-body {
+	padding: 0;
+	max-height: 150px;
+	overflow-y: auto;
+}
+
+.panel-webpack-output .panel-body pre {
+	margin: 0;
+	padding: 10px 15px;
+	border: none;
+	border-radius: 0 0 4px 4px;
+	background: #222;color:#f7f7f7;
 }
 
 /* general */
@@ -54,76 +87,14 @@ label {
 	color: lightcoral !important;
 }
 
-/* tabs */
-ul.nav-tabs {
-	border: none;
-}
-
-ul.nav-tabs > li {
-	margin-bottom: 0;
-}
-
-ul.nav-tabs > li > a {
-	padding: 10px 30px;
-	margin-right: 10px;
-	font-weight: bold;
-	color: #bebebe;
-	background: #f7f7f7;
-	user-select: none;
-	border-radius: 0;
-	border: none;
-}
-
-ul.nav-tabs > li.active > a,
-ul.nav-tabs > li.active > a:active,
-ul.nav-tabs > li.active > a:focus,
-ul.nav-tabs > li.active > a:hover,
-ul.nav-tabs > li > a:active,
-ul.nav-tabs > li > a:focus,
-ul.nav-tabs > li > a:hover {
-	border: none;
-}
-
-ul.nav-tabs > li.active > a:focus,
-ul.nav-tabs > li.active > a:hover {
-	color: #777777;
-}
-
-ul.nav-tabs > li > a:focus {
-	background: #f7f7f7;
-}
-
-ul.nav-tabs > li.active > a {
-	color: #777777;
-	background: #ffffff;
-}
-
-.tab-content {
-	padding: 15px 15px 0;
-	height: calc(100vh - 40px - 10px);
-	background: #ffffff;
-	position: relative;
-}
-
-/* webpack output */
-.panel-webpack-output {
-	border: none;
-}
-
-.panel-webpack-output .panel-heading {
-	border: solid 1px #dddddd;
-}
-
-.panel-webpack-output .panel-body {
-	padding: 0;
-	max-height: 150px;
-	overflow-y: auto;
-}
-
-.panel-webpack-output .panel-body pre {
-	margin: 0;
-	padding: 10px 15px;
-	border: none;
-	border-radius: 0 0 4px 4px;
-	background: #222;color:#f7f7f7;
+*,
+*:active,
+*:focus,
+*:hover,
+*.active,
+*.active:active,
+*.active:focus,
+*.active:hover {
+	cursor: default !important;
+	outline: none !important;
 }
