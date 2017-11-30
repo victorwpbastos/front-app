@@ -1,4 +1,5 @@
-let { app, BrowserWindow, Menu, Tray } = require('electron');
+let { app, BrowserWindow, Menu, Tray, ipcMain } = require('electron');
+let kill = require('tree-kill');
 let splashWindow, mainWindow, tray, contextMenu, showTrayBalloon = true;
 
 app.on('ready', () => {
@@ -17,7 +18,7 @@ app.on('ready', () => {
 		show: false
 	});
 
-	mainWindow.setMenu(null);
+	// mainWindow.setMenu(null);
 
 	splashWindow.loadURL(`file://${__dirname}/splash.html`);
 	mainWindow.loadURL(`file://${__dirname}/index.html`);
@@ -75,4 +76,18 @@ app.on('ready', () => {
 			});
 		}
 	});
+});
+
+let frontChild;
+
+ipcMain.on('front-child', (e, child) => {
+	console.log(child);
+	frontChild = child;
+});
+
+app.on('before-quit', () => {
+	if (frontChild) {
+		console.log(frontChild.pid);
+		kill(frontChild.pid);
+	}
 });

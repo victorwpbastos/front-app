@@ -4,6 +4,7 @@ let os = require('os');
 let { spawn } = require('child_process');
 let ansiToHTML = require('ansi-to-html');
 let kill = require('tree-kill');
+let { ipcRenderer } = require('electron');
 let template = fs.readFileSync(path.resolve(__dirname, 'index.html'), 'utf8');
 
 let convert = new ansiToHTML();
@@ -36,9 +37,7 @@ module.exports = {
 	},
 
 	beforeDestroy() {
-		if (this.child.pid) {
-			this.stop();
-		}
+		this.stop();
 	},
 
 	methods: {
@@ -49,6 +48,8 @@ module.exports = {
 			this.child = spawn(command, ['start'], { cwd: this.path });
 
 			this.loading = true;
+
+			ipcRenderer.send('front-child', this.child);
 
 			this.child.stdout.on('data', (data) => {
 				if (data && data.length > 1) {
@@ -78,11 +79,16 @@ module.exports = {
 				this.running = false;
 				this.output = '';
 				this.address = '';
+
+				ipcRenderer.send('front-child', null);
 			});
 		},
 
 		stop() {
-			kill(this.child.pid);
+			if (this.child.pid) {
+				kill(this.child.pid);
+				this.child = null;
+			}
 		}
 	}
 };
