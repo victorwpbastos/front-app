@@ -1,5 +1,6 @@
 let fs = require('fs');
 let path = require('path');
+let watch = require('node-watch');
 let template = fs.readFileSync(path.resolve(__dirname, 'index.html'), 'utf8');
 let ButtonFrontStart = require('../../components/button-front-start');
 let ButtonFrontBuild = require('../../components/button-front-build');
@@ -22,14 +23,9 @@ module.exports = {
 			outputFrontStart: '',
 			outputFrontBuild: '',
 			showOutput: false,
-			showRemoveConfirmationModal: false
+			showRemoveConfirmationModal: false,
+			folderExists: false
 		};
-	},
-
-	computed: {
-		folderExists() {
-			return fs.existsSync(this.project.path);
-		}
 	},
 
 	watch: {
@@ -40,6 +36,22 @@ module.exports = {
 				this.$el.removeEventListener('keyup', this.closeModalOnEsc);
 			}
 		}
+	},
+
+	created() {
+		this.folderExists = fs.existsSync(this.project.path);
+
+		this.watcher = watch(path.dirname(this.project.path))
+
+		this.watcher.on('change', event => {
+			if (event === 'update') {
+				this.folderExists = fs.existsSync(this.project.path);
+			}
+		});
+	},
+
+	beforeDestroy() {
+		this.watcher.close();
 	},
 
 	methods: {

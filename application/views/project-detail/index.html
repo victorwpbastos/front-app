@@ -1,7 +1,7 @@
 <div class="box">
 	<div class=" flex flex-h-center">
 		<strong class="text-muted">
-			{{ project.name }}
+			{{ project.name.toUpperCase() }}
 			<span class="text-danger" v-if="!folderExists">(THIS FOLDER DOESN'T EXIST!)</span>
 		</strong>
 
@@ -68,7 +68,7 @@
 				</div>
 
 				<div class="modal-body">
-					Remove project <strong class="text-danger">{{ project.name }}</strong> from the list?
+					Remove project <strong class="text-danger">{{ project.name.toUpperCase() }}</strong> from the list?
 				</div>
 
 				<div class="modal-footer flex">
