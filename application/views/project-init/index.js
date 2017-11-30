@@ -20,11 +20,16 @@ module.exports = {
 
 			successMessage: '',
 			errorMessage: '',
+			pathExists: false,
 			loading: false
 		};
 	},
 
 	computed: {
+		canConfirm() {
+			return this.path && this.name && this.template && !this.pathExists && !this.loading;
+		},
+
 		fullPath() {
 			if (this.path && this.name) {
 				return `${this.path}${path.sep}${this.name}`;
@@ -37,17 +42,7 @@ module.exports = {
 	watch: {
 		fullPath() {
 			if (this.path && this.name) {
-				let pathExists = fs.existsSync(this.fullPath);
-
-				if (pathExists) {
-					this.errorMessage = `The folder <strong>${this.fullPath}</strong> already exists.`
-
-					this.name = '';
-
-					setTimeout(() => {
-						this.errorMessage = '';
-					}, 5000);
-				}
+				this.pathExists = fs.existsSync(this.fullPath);
 			}
 		}
 	},

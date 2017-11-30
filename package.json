@@ -4,18 +4,26 @@
 	"description": "Front App",
 	"main": "index.js",
 	"scripts": {
-		"start": "electron ."
+		"start": "electron .",
+		"dist": "electron-builder"
+	},
+	"build": {
+		"productName": "Front App",
+		"appId": "br.gov.sp.sorocaba.ssis.front-app",
+		"win": {
+			"target": "portable"
+		}
 	},
 	"repository": "https://github.com/victorwpbastos/front-app",
 	"author": "Victor Bastos <victorwpbastos@gmail.com>",
 	"devDependencies": {
-		"electron": "^1.7.9"
+		"electron": "^1.7.9",
+		"electron-builder": "^19.47.1"
 	},
 	"dependencies": {
 		"ansi-to-html": "^0.6.3",
 		"bootstrap": "^3.3.7",
 		"font-awesome": "^4.7.0",
-		"menubar": "^5.2.3",
 		"request": "^2.83.0",
 		"tree-kill": "^1.2.0",
 		"vue": "^2.5.8"

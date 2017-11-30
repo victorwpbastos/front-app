@@ -20,15 +20,15 @@
 
 	<div class="flex flex-column" style="flex:1;">
 		<!-- project list -->
-		<project-list v-if="activeButton === 1" />
+		<project-list v-show="activeButton === 1" />
 
 		<!-- project add -->
-		<project-add v-if="activeButton === 2" />
+		<project-add v-show="activeButton === 2" />
 
 		<!-- projet init -->
-		<project-init v-if="activeButton === 3" />
+		<project-init v-show="activeButton === 3" />
 
 		<!-- my preferences -->
-		<config v-if="activeButton === 4" />
+		<config v-show="activeButton === 4" />
 	</div>
 </div>
