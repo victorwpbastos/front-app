@@ -14,9 +14,13 @@ module.exports = {
 
 	methods: {
 		run() {
-			let child = spawn(this.$store.config.editor, ['.'], { cwd: this.path, stdin: 'inherit' });
+			if (this.$store.config.editor) {
+				let child = spawn(this.$store.config.editor, ['.'], { cwd: this.path, stdin: 'inherit' });
 
-			child.on('error', () => shell.openExternal(this.path));
+				child.on('error', () => shell.openExternal(this.path));
+			} else {
+				shell.openExternal(this.path);
+			}
 		}
 	}
 };
