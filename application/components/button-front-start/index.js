@@ -49,7 +49,7 @@ module.exports = {
 
 			this.loading = true;
 
-			ipcRenderer.send('front-child', this.child);
+			ipcRenderer.send('front-start-pid', this.child.pid);
 
 			this.child.stdout.on('data', (data) => {
 				if (data && data.length > 1) {
@@ -80,7 +80,7 @@ module.exports = {
 				this.output = '';
 				this.address = '';
 
-				ipcRenderer.send('front-child', null);
+				ipcRenderer.send('front-start-pid', null);
 			});
 		},
 

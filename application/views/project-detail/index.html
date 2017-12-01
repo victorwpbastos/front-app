@@ -8,8 +8,7 @@
 		<div class="flex flex-h-center" style="margin-left:auto;">
 			<template v-if="folderExists">
 				<!-- front start -->
-				<button-front-start :path="project.path" style="margin-right:10px;" @address="value => address = value" @output="value => outputFrontStart = value"
-				/>
+				<button-front-start :path="project.path" style="margin-right:10px;" @address="value => address = value" @output="value => outputFrontStart = value" />
 
 				<!-- front build -->
 				<button-front-build :path="project.path" style="margin-right:10px;" @output="value => outputFrontBuild = value" />

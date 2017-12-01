@@ -1,6 +1,12 @@
 let { app, BrowserWindow, Menu, Tray, ipcMain } = require('electron');
 let kill = require('tree-kill');
-let splashWindow, mainWindow, tray, contextMenu, showTrayBalloon = true;
+let splashWindow = null;
+let mainWindow = null;
+let tray = null;
+let contextMenu = null;
+let showTrayBalloon = true;
+let frontStartPid = null;
+let frontBuildPid = null;
 
 app.on('ready', () => {
 	splashWindow = new BrowserWindow({
@@ -12,13 +18,15 @@ app.on('ready', () => {
 	});
 
 	mainWindow = new BrowserWindow({
-		minWidth: 890,
+		width: 800,
+		minWidth: 800,
+		height: 600,
 		minHeight: 600,
 		icon: `${__dirname}/assets/img/logo.png`,
 		show: false
 	});
 
-	// mainWindow.setMenu(null);
+	mainWindow.setMenu(null);
 
 	splashWindow.loadURL(`file://${__dirname}/splash.html`);
 	mainWindow.loadURL(`file://${__dirname}/index.html`);
@@ -78,16 +86,22 @@ app.on('ready', () => {
 	});
 });
 
-let frontChild;
-
-ipcMain.on('front-child', (e, child) => {
-	console.log(child);
-	frontChild = child;
+ipcMain.on('front-start-pid', (e, pid) => {
+	frontStartPid = pid;
 });
 
-app.on('before-quit', () => {
-	if (frontChild) {
-		console.log(frontChild.pid);
-		kill(frontChild.pid);
+ipcMain.on('front-build-pid', (e, pid) => {
+	frontBuildPid = pid;
+});
+
+app.on('before-quit', (e) => {
+	e.preventDefault();
+
+	if (frontStartPid) {
+		kill(frontStartPid, () => app.exit());
+	} else if(frontBuildPid) {
+		kill(frontBuildPid, () => app.exit());
+	} else {
+		app.exit();
 	}
 });
